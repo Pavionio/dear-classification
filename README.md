@@ -21,3 +21,5 @@ app.zip - программа для установки
 4. Установить python (если не скачан)
 5. Написать команду pip install -r requirements.txt
 6. Для запуска программы нужно вводить streamlit run app.py
+## Ссылки
+Скринкаст - [https://disk.yandex.ru/i/-WNVyMaSfmIMrQ](https://disk.yandex.ru/i/-WNVyMaSfmIMrQ)
