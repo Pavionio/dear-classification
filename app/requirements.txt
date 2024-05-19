@@ -1,0 +1,3 @@
+ultralytics==8.2.18
+streamlit==1.34.0
+pymorphy2==0.9.1
