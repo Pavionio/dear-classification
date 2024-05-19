@@ -13,7 +13,7 @@ import pymorphy2
 
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 morph = pymorphy2.MorphAnalyzer()
-model = {'base': YOLO(r'base_model.pt'), 'pro': r'advanced_model.pt'}
+model = {'base': YOLO(r'base_model.pt'), 'pro': YOLO(r'advanced_model.pt')}
 if 'mchoice' not in st.session_state:
     st.session_state['mchoice'] = 'base'
 statistic = {
