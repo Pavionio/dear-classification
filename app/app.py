@@ -16,6 +16,13 @@ morph = pymorphy2.MorphAnalyzer()
 model = {'base': YOLO(r'base_model.pt'), 'pro': YOLO(r'advanced_model.pt')}
 if 'mchoice' not in st.session_state:
     st.session_state['mchoice'] = 'base'
+if 'Олень' not in st.session_state:
+    st.session_state['Олень'] = 0
+if 'Косуля' not in st.session_state:
+    st.session_state['Косуля'] = 0
+if 'Кабарга' not in st.session_state:
+    st.session_state['Кабарга'] = 0
+
 statistic = {
     "Олень": 0,
     "Косуля": 0,
@@ -24,6 +31,9 @@ statistic = {
 
 
 def processing(files_list, mchoice):
+    st.session_state['Олень'] = 0
+    st.session_state['Косуля'] = 0
+    st.session_state['Кабарга'] = 0
     lst = []
     DIR = "processed"  # создать
     if not (os.path.isdir(DIR)):
@@ -41,6 +51,8 @@ def processing(files_list, mchoice):
         try:
             result = names[int(results[i].boxes.cls[0])]
             for j in range(len(results[i].boxes.conf)):
+                if j == 0 and results[i].boxes.conf[j] <= 0.3:
+                    to_cedik.append(names[int(results[i].boxes.cls[j])])
                 if results[i].boxes.conf[j] > 0.3:
                     to_cedik.append(names[int(results[i].boxes.cls[j])])
         except IndexError:
@@ -94,6 +106,7 @@ with tab1:
             res = processing(files, st.session_state['mchoice'])
             for animal in res:
                 statistic[animal] += 1
+                st.session_state[animal] += 1
         st.toast('Готово! Вы можете посмотреть количество животных каждого вида во вкладке "Статистика"', icon='👍')
         st.info('Чтобы очистить список фотографий нажмите F5', icon="ℹ️")
 
@@ -101,7 +114,7 @@ with tab2:
     st.subheader("Статистика последнего запроса")
     st.write(f"Обнаружено:")
     for i in statistic.keys():
-        st.write(f"~ {statistic[i]} {morph.parse(i)[0].make_agree_with_number(statistic[i]).word}")
+        st.write(f"~ {st.session_state[i]} {morph.parse(i)[0].make_agree_with_number(st.session_state[i]).word}")
 
 with tab3:
     st.subheader("Выберете вид животного для дообучения")
